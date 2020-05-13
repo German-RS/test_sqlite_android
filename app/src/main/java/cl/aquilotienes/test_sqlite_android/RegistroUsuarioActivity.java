@@ -28,6 +28,24 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
 
     public void onClick(View view){
         registrarUsuarios();
+        //registrarUsuariosSQL();
+    }
+
+    private void registrarUsuariosSQL() {
+
+        ConexionSQLiteHelper conn = new ConexionSQLiteHelper(this, "db_usuarios",
+                null, 1);
+        SQLiteDatabase db = conn.getWritableDatabase();
+
+        //INSERT INTO usuario (id, nombre, telefono) VALUES (123, 'German', 555555)
+        String insert = "INSERT INTO " + Utilidades.TABLA_USUARIO
+                + " (" + Utilidades.CAMPO_ID + ", " + Utilidades.CAMPO_NOMBRE + ", "
+                + Utilidades.CAMPO_TELEFONO + ") VALUES (" + etId.getText().toString() +
+                ", '" + etNombre.getText().toString() + "', '" + etTelefono.getText().toString() + "')" ;
+
+        db.execSQL(insert);
+
+        db.close();
     }
 
     private void registrarUsuarios() {
@@ -50,5 +68,5 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
 
     }
 
-    //https://www.youtube.com/watch?v=SmrpCjz-QlA
+
 }//.
