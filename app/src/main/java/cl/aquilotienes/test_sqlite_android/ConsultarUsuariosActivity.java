@@ -36,13 +36,40 @@ public class ConsultarUsuariosActivity extends AppCompatActivity {
         switch (view.getId()){
 
             case R.id.btnBuscar:
-                consultar();
+                //consultar();
+                consultarSQL();
                 break;
             case R.id.btnActualizar:
                 break;
             case R.id.btnEliminar:
                 break;
 
+        }
+
+    }
+
+    private void consultarSQL() {
+
+        SQLiteDatabase db =  conn.getReadableDatabase();
+        String[] parametros = {campoDocumento.getText().toString()};
+
+        try {
+            //SELECT nombre, telefono from usuario where codigo=?
+
+            Cursor cursor = db.rawQuery(" SELECT " + Utilidades.CAMPO_NOMBRE + ", "
+                    + Utilidades.CAMPO_TELEFONO + " FROM " + Utilidades.TABLA_USUARIO +
+                    " WHERE " + Utilidades.CAMPO_ID + "=?", parametros);
+
+            cursor.moveToFirst();
+            campoVerNombre.setText(cursor.getString(0));
+            campoVerTelefono.setText(cursor.getString(1));
+            cursor.close();
+            db.close();
+
+        }catch (Exception e){
+            Toast.makeText(getApplicationContext(), "Error: " + e.getMessage(),
+                    Toast.LENGTH_SHORT).show();
+            limpiar();
         }
 
     }
@@ -81,7 +108,6 @@ public class ConsultarUsuariosActivity extends AppCompatActivity {
         campoVerTelefono.setText("");
     }
 
-
-    //https://www.youtube.com/watch?v=PGlm0Qy9oOg
+    //v.56
 
 }//.
